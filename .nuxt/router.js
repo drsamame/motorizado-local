@@ -5,10 +5,10 @@ import scrollBehavior from './router.scrollBehavior.js'
 
 const _1c2e95c8 = () => interopDefault(import('../pages/camera.vue' /* webpackChunkName: "pages/camera" */))
 const _6c3498ed = () => interopDefault(import('../pages/dashboard.vue' /* webpackChunkName: "pages/dashboard" */))
-const _2c129448 = () => interopDefault(import('../pages/detail.vue' /* webpackChunkName: "pages/detail" */))
 const _083a33c2 = () => interopDefault(import('../pages/login.vue' /* webpackChunkName: "pages/login" */))
 const _2b5e35da = () => interopDefault(import('../pages/register.vue' /* webpackChunkName: "pages/register" */))
 const _10c8d5de = () => interopDefault(import('../pages/signature.vue' /* webpackChunkName: "pages/signature" */))
+const _e141041a = () => interopDefault(import('../pages/detail/_id.vue' /* webpackChunkName: "pages/detail/_id" */))
 
 // TODO: remove in Nuxt 3
 const emptyFn = () => {}
@@ -35,10 +35,6 @@ export const routerOptions = {
     component: _6c3498ed,
     name: "dashboard"
   }, {
-    path: "/detail",
-    component: _2c129448,
-    name: "detail"
-  }, {
     path: "/login",
     component: _083a33c2,
     name: "login"
@@ -50,6 +46,10 @@ export const routerOptions = {
     path: "/signature",
     component: _10c8d5de,
     name: "signature"
+  }, {
+    path: "/detail/:id?",
+    component: _e141041a,
+    name: "detail-id"
   }],
 
   fallback: false
