@@ -42,11 +42,13 @@
     "cookieparser": "^0.1.0",
     "getusermedia": "^2.0.1",
     "js-cookie": "^2.2.1",
+    "leaflet": "^1.6.0",
     "lru-cache": "^5.1.1",
     "nuxt": "^2.11.0",
     "nuxt-validate": "^1.0.1",
     "vee-validate": "^3.2.5",
-    "vue-signature-pad": "^1.1.18"
+    "vue-signature-pad": "^1.1.18",
+    "vue2-leaflet": "^2.5.2"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",

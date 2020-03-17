@@ -18,6 +18,7 @@ import nuxt_plugin_plugin_0dea3a11 from 'nuxt_plugin_plugin_0dea3a11' // Source:
 import nuxt_plugin_axios_75d23193 from 'nuxt_plugin_axios_75d23193' // Source: ./axios.js (mode: 'all')
 import nuxt_plugin_validate_4442dcea from 'nuxt_plugin_validate_4442dcea' // Source: ../plugins/validate.js (mode: 'all')
 import nuxt_plugin_backend_5e178fed from 'nuxt_plugin_backend_5e178fed' // Source: ../services/backend.js (mode: 'all')
+import nuxt_plugin_leaflet_02f645f1 from 'nuxt_plugin_leaflet_02f645f1' // Source: ../plugins/leaflet.js (mode: 'client')
 import nuxt_plugin_global_f21f4e84 from 'nuxt_plugin_global_f21f4e84' // Source: ../plugins/global.js (mode: 'all')
 import nuxt_plugin_identiface_01978faa from 'nuxt_plugin_identiface_01978faa' // Source: ../plugins/identiface.js (mode: 'client')
 
@@ -198,6 +199,10 @@ async function createApp (ssrContext) {
 
   if (typeof nuxt_plugin_backend_5e178fed === 'function') {
     await nuxt_plugin_backend_5e178fed(app.context, inject)
+  }
+
+  if (process.client && typeof nuxt_plugin_leaflet_02f645f1 === 'function') {
+    await nuxt_plugin_leaflet_02f645f1(app.context, inject)
   }
 
   if (typeof nuxt_plugin_global_f21f4e84 === 'function') {
