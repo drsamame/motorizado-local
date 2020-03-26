@@ -131,9 +131,6 @@ export const actions = {
         sendData['fenced']= payload.enclosed
         sendData['water_service']= payload.water
         sendData['electricity_service']= payload.electricity
-        sendData['area'] = {
-          land: payload.terrainSize, 
-        }
         break
     };
 

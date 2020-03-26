@@ -179,7 +179,6 @@ export default {
     refuse() {},
     async accept() {
       this.modalDialog = false
-      console.log(this.$store.state.registerVisit.sendData);
       await $backend.sendRegister(this.$store.state.registerVisit.visitId, this.$store.state.registerVisit.sendData)
       //this.$router.push('/dashboard') 
     },

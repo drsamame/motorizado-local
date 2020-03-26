@@ -76,8 +76,8 @@
                 :error-messages="errors"
                 required
               >
-                <v-radio label="Una puerta" value="Una puerta"></v-radio>
-                <v-radio label="Varias puertas" value="Varias puertas"></v-radio>
+                <v-radio label="Una puerta" :value="1"></v-radio>
+                <v-radio label="Varias puertas" :value="2"></v-radio>
               </v-radio-group>
             </ValidationProvider>
           </div>
@@ -98,8 +98,8 @@
                   :error-messages="errors"
                   required
                 >
-                  <v-radio label="Si" :value="true"></v-radio>
-                  <v-radio label="No" :value="false"></v-radio>
+                  <v-radio label="Si" :value="1"></v-radio>
+                  <v-radio label="No" :value="2"></v-radio>
                 </v-radio-group>
               </ValidationProvider>
             </div>
@@ -118,9 +118,9 @@
                   :error-messages="errors"
                   required
                 >
-                  <v-radio label="Tiene agua" value="Tiene agua"></v-radio>
-                  <v-radio label="Solo está habilitado" value="Solo está habilitado"></v-radio>
-                  <v-radio label="No tiene" value="No tiene"></v-radio>
+                  <v-radio label="Tiene agua" :value="1"></v-radio>
+                  <v-radio label="Solo está habilitado" :value="2"></v-radio>
+                  <v-radio label="No tiene" :value="3"></v-radio>
                 </v-radio-group>
               </ValidationProvider>
             </div>
@@ -139,9 +139,9 @@
                   :error-messages="errors"
                   required
                 >
-                  <v-radio label="Tiene Luz" value="Tiene Luz"></v-radio>
-                  <v-radio label="Solo está habilitado" value="Solo está habilitado"></v-radio>
-                  <v-radio label="No tiene" value="No tiene"></v-radio>
+                  <v-radio label="Tiene Luz" :value="1"></v-radio>
+                  <v-radio label="Solo está habilitado" :value="2"></v-radio>
+                  <v-radio label="No tiene" :value="3"></v-radio>
                 </v-radio-group>
               </ValidationProvider>
             </div>
@@ -290,11 +290,11 @@
 
           <div class="form-group spaces">
             <p class="text">Espacios del inmueble</p>
-            <div v-for="item in model.spaces" :key="item.text">
-              <div class="itemSpace"> 
+            <div v-for="item in spaces" :key="item.text">
+              <div class="itemSpace">
                 <p>{{item.text}}</p> 
                 <div class="counter">
-                  <div class="rest" @click="updateCounter('rest', item)">-</div>
+                  <div class="add" @click="updateCounter('add',item)">+</div>
                     <v-text-field
                       v-model="item.value"
                       type="number"
@@ -304,7 +304,7 @@
                       :filled = "true"
                       dense
                     ></v-text-field>
-                  <div class="add" @click="updateCounter('add',item)">+</div>
+                  <div class="rest" @click="updateCounter('rest', item)">-</div>
                 </div>
               </div>
             </div>
@@ -324,9 +324,9 @@
                 :error-messages="errors"
                 required
               >
-                <v-radio label="Pista asfaltada" value="pista asfaltada"></v-radio>
-                <v-radio label="Sólo trocha" value="solo trocha"></v-radio>
-                <v-radio label="Tierra" value="tierra"></v-radio>
+                <v-radio label="Pista asfaltada" :value="1"></v-radio>
+                <v-radio label="Sólo trocha" :value="2"></v-radio>
+                <v-radio label="Tierra" :value="3"></v-radio>
               </v-radio-group>
             </ValidationProvider>
           </div>
@@ -345,9 +345,9 @@
                 :error-messages="errors"
                 required
               >
-                <v-radio label="Ordenado" value="ordenado"></v-radio>
-                <v-radio label="Medio" value="medio"></v-radio>
-                <v-radio label="Desordenado" value="desordenado"></v-radio>
+                <v-radio label="Ordenado" value="Ordenado"></v-radio>
+                <v-radio label="Medio" value="Medio"></v-radio>
+                <v-radio label="Desordenado" value="Desordenado"></v-radio>
               </v-radio-group>
             </ValidationProvider>
           </div>
@@ -366,13 +366,13 @@
                 :error-messages="errors"
                 required
               >
-                <v-radio label="Referencia correcta" :value="true"></v-radio>
-                <v-radio label="No" :value="false"></v-radio>
+                <v-radio label="Referencia correcta" :value="1"></v-radio>
+                <v-radio label="No" :value="0"></v-radio>
               </v-radio-group>
             </ValidationProvider>
             <v-expand-transition>
               <v-textarea
-                v-show="model.reference === false"
+                v-show="model.reference === 0"
                 v-model="model.otherReference"
                 class="textArea"
                 :counter="true"
@@ -396,13 +396,13 @@
                 :error-messages="errors"
                 required
               >
-                <v-radio label="Si, es accesible" :value="true"></v-radio>
-                <v-radio label="No" :value="false"></v-radio>
+                <v-radio label="Si, es accesible" :value="1"></v-radio>
+                <v-radio label="No" :value="0"></v-radio>
               </v-radio-group>
             </ValidationProvider>
             <v-expand-transition>
               <v-textarea
-                v-show="model.accesible === false"
+                v-show="model.accesible === 0"
                 v-model="model.motiveUnaccesible"
                 class="textArea"
                 name="motivo"
@@ -603,19 +603,12 @@ export default {
         floors: 1,
         floorNumber: 1,
         doors: undefined,
+        propertySpaces: [],
+        streetState: '',
         reference: '',
         otherReference: '',
         accesible: [],
-        motiveUnaccesible: '',
-        spaces: [
-          { text: 'Cocina', value: 0, backName: 'kitchen' },
-          { text: 'Dormitorios', value: 0, backName: 'rooms' },
-          { text: 'Sala', value: 0, backName: 'living_room' },
-          { text: 'Jardín', value: 0, backName: 'garden' },
-          { text: 'Lavandería', value: 0, backName: 'laundry' },
-          { text: 'Patio', value: 0, backName: 'patio' }, 
-          { text: 'Piscina', value: 0, backName: 'pool' }
-        ]
+        motiveUnaccesible: ''
       },
       propertyItems: [
         { 
@@ -636,6 +629,15 @@ export default {
         }
       ],
       floors: [1, 2, 3, 4, 5, 6],
+      spaces: [
+        { text: 'Cocina', value: 0 },
+        { text: 'Dormitorios', value: 0 },
+        { text: 'Sala', value: 0 },
+        { text: 'Jardín', value: 0 },
+        { text: 'Lavandería', value: 0 },
+        { text: 'Patio', value: 0 },
+        { text: 'Piscina', value: 0 }
+      ]
     }
   },
   computed: mapState({

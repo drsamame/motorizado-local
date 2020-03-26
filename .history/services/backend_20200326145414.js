@@ -21,7 +21,7 @@ export default {
     return api.delete(`/admin/biker/visit/${id}`, { data: body })
   },
   sendRegister(id,body){
-    return api.post(`/admin/biker/visit/register/${id}`, body)
+    return api.post(`/admin/biker/visit/register/${id}`,body)
   },
   getPostBackgroundsynExample(){
     return axios.post('https://private-6ef058-motorizado.apiary-mock.com/background',{syncBackground: 'background-sync'})

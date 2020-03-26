@@ -179,9 +179,8 @@ export default {
     refuse() {},
     async accept() {
       this.modalDialog = false
-      console.log(this.$store.state.registerVisit.sendData);
       await $backend.sendRegister(this.$store.state.registerVisit.visitId, this.$store.state.registerVisit.sendData)
-      //this.$router.push('/dashboard') 
+      //this.$router.push('/dashboard')
     },
     async uploadImage(image) {
       let res = await axios.post('this.awsUrl', 'this.awsConfig');

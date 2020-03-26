@@ -290,11 +290,11 @@
 
           <div class="form-group spaces">
             <p class="text">Espacios del inmueble</p>
-            <div v-for="item in model.spaces" :key="item.text">
-              <div class="itemSpace"> 
+            <div v-for="item in spaces" :key="item.text">
+              <div class="itemSpace">
                 <p>{{item.text}}</p> 
                 <div class="counter">
-                  <div class="rest" @click="updateCounter('rest', item)">-</div>
+                  <div class="add" @click="updateCounter('add',item)">+</div>
                     <v-text-field
                       v-model="item.value"
                       type="number"
@@ -304,7 +304,7 @@
                       :filled = "true"
                       dense
                     ></v-text-field>
-                  <div class="add" @click="updateCounter('add',item)">+</div>
+                  <div class="rest" @click="updateCounter('rest', item)">-</div>
                 </div>
               </div>
             </div>
@@ -372,7 +372,7 @@
             </ValidationProvider>
             <v-expand-transition>
               <v-textarea
-                v-show="model.reference === false"
+                v-show="model.reference === 0"
                 v-model="model.otherReference"
                 class="textArea"
                 :counter="true"
@@ -603,19 +603,11 @@ export default {
         floors: 1,
         floorNumber: 1,
         doors: undefined,
+        propertySpaces: [],
         reference: '',
         otherReference: '',
         accesible: [],
-        motiveUnaccesible: '',
-        spaces: [
-          { text: 'Cocina', value: 0, backName: 'kitchen' },
-          { text: 'Dormitorios', value: 0, backName: 'rooms' },
-          { text: 'Sala', value: 0, backName: 'living_room' },
-          { text: 'Jardín', value: 0, backName: 'garden' },
-          { text: 'Lavandería', value: 0, backName: 'laundry' },
-          { text: 'Patio', value: 0, backName: 'patio' }, 
-          { text: 'Piscina', value: 0, backName: 'pool' }
-        ]
+        motiveUnaccesible: ''
       },
       propertyItems: [
         { 
@@ -636,6 +628,15 @@ export default {
         }
       ],
       floors: [1, 2, 3, 4, 5, 6],
+      spaces: [
+        { text: 'Cocina', value: 0 },
+        { text: 'Dormitorios', value: 0 },
+        { text: 'Sala', value: 0 },
+        { text: 'Jardín', value: 0 },
+        { text: 'Lavandería', value: 0 },
+        { text: 'Patio', value: 0 },
+        { text: 'Piscina', value: 0 }
+      ]
     }
   },
   computed: mapState({

@@ -613,7 +613,7 @@ export default {
           { text: 'Sala', value: 0, backName: 'living_room' },
           { text: 'Jardín', value: 0, backName: 'garden' },
           { text: 'Lavandería', value: 0, backName: 'laundry' },
-          { text: 'Patio', value: 0, backName: 'patio' }, 
+          { text: 'Patio', value: 0, backName: 'patio' },
           { text: 'Piscina', value: 0, backName: 'pool' }
         ]
       },

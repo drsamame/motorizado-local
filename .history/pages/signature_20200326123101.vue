@@ -168,8 +168,7 @@ export default {
   data() {
     return {
       model:{},
-      dialogAccept: null,
-      dataBody:{},
+      dialogAccept: null
     }
   },
   computed: mapState({
@@ -177,11 +176,9 @@ export default {
   }),
   methods: {
     refuse() {},
-    async accept() {
+    accept() {
       this.modalDialog = false
-      console.log(this.$store.state.registerVisit.sendData);
-      await $backend.sendRegister(this.$store.state.registerVisit.visitId, this.$store.state.registerVisit.sendData)
-      //this.$router.push('/dashboard') 
+      this.$router.push('/dashboard')
     },
     async uploadImage(image) {
       let res = await axios.post('this.awsUrl', 'this.awsConfig');
@@ -211,9 +208,11 @@ export default {
     undo() {
       this.$refs.signaturePad.undoSignature()
     },
-    async save() {
+    save() {
       const { isEmpty, data } = this.$refs.signaturePad.saveSignature('image/jpg')
       if (!isEmpty) {
+        
+
         this.dialogAccept = true
       }
     }
