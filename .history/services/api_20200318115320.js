@@ -1,0 +1,20 @@
+import axios from 'axios'
+
+export default axios.create({
+  baseURL: 'https://api.test.cambioseguro.com/api/v1/admin/',
+  timeout: 5000,
+  withCredentials: true, 
+  headers: {
+    'Content-Type': 'application/json'
+  }
+})
+
+axios.interceptors.request.use(
+  config => {
+    config.headers["Authorization"] = "bearer " + getToken();
+    return config;
+  },
+  error => {
+    Promise.reject(error);
+  }
+);

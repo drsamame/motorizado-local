@@ -1,0 +1,66 @@
+
+.page-enter-active,
+.page-leave-active {
+  transition-duration: 0.3s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.page-enter,
+.page-leave-active {
+  opacity: 0
+}
+
+.layout-enter-active,
+.layout-leave-active {
+  transition-duration: 0.3s;
+  transition-property: opacity;
+  transition-timing-function: ease; 
+}
+
+.layout-enter,
+.layout-leave-active {
+  opacity: 0
+}
+
+.theme--light.v-input textarea{
+  color: rgba(21, 22, 61, 0.8) !important;
+}
+
+
+.theme--light.select > .v-input__control > .v-input__slot:after {
+  border-color: transparent !important;
+  display: none;
+}
+.theme--light.select > .v-input__control > .v-input__slot:before {
+  border-color: transparent !important;
+  display: none;
+}
+
+.leaflet-control-zoom{
+  display: none;
+}
+
+.theme--light.v-tabs-items {
+  background-color: transparent !important;  
+}
+
+.theme--light.v-text-field--filled > .v-input__control > .v-input__slot{
+  background-color: transparent !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+.theme--light.v-text-field--filled > .v-input__control > .v-text-field__details{
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.counterInput{
+  width: 40px;
+  text-align: center;
+  margin: 0 15px !important;
+  input{
+    text-align: center !important;
+    padding-left: 8px !important;
+  }
+}
