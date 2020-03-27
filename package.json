@@ -38,6 +38,7 @@
     "@nuxtjs/google-analytics": "^2.2.2",
     "@nuxtjs/pwa": "^3.0.0-beta.19",
     "@nuxtjs/sitemap": "^2.0.1",
+    "base64-blob": "^1.4.1",
     "canvas-to-blob": "^1.0.0",
     "cookieparser": "^0.1.0",
     "getusermedia": "^2.0.1",
