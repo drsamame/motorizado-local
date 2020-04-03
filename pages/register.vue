@@ -1,9 +1,10 @@
 <template>
   <section>
     <v-row class="px-4 top">
-      <div class="content-back d-flex align-center justify-start">
-        <nuxt-link :to="'/detail/'+$store.state.registerVisit.visitId" class="back d-inline-flex align-center"
-          ><v-icon class="arrow">mdi-arrow-left</v-icon>VOLVER</nuxt-link>
+      <div class="content-back d-flex align-center justify-start" @click="dialogAccept = true">
+        <a class="back d-inline-flex align-center" 
+          ><v-icon class="arrow">mdi-arrow-left</v-icon>VOLVER
+        </a>
       </div> 
     </v-row>
     <div class="register mt-4 pa-5">
@@ -278,8 +279,8 @@
                 v-model="model.galeryNumber" 
                 :error-messages="errors"
                 clearable
-                type="number"
-                placeholder="Nº"
+                type="text"
+                placeholder="Nº" 
                 :filled = "true"
                 label="Galeria en la que se encuentra"
                 required
@@ -436,12 +437,9 @@
               </div>
 
               <div class="actions d-flex justify-center align-center">
-                <nuxt-link to="/camera">
-                  <v-btn rounded outlined>
-                    <v-icon>mdi-plus</v-icon>
-                    AGREGAR</v-btn
-                  >
-                </nuxt-link>
+                <v-btn rounded outlined @click="goToCamera">
+                  <v-icon>mdi-plus</v-icon>
+                  AGREGAR FOTO</v-btn>
               </div>
               <div class="btn-signature d-flex justify-center align-center">
                 <v-btn rounded @click="sendForm"> FIRMAR</v-btn>
@@ -451,6 +449,23 @@
         </form>
       </ValidationObserver>
     </div>
+    <!-- Dialogs -->
+    <v-dialog v-model="dialogAccept" max-width="300px">
+      <v-card class="dialog">
+        <v-card-title class="pb-0"
+          ><p class="text">
+            Perderás los datos no guardados
+            ¿Desea continuar?
+          </p></v-card-title
+        >
+        <v-card-actions class="d-flex justify-end">
+          <v-btn text class="cancel" @click="dialogAccept = false">
+            <span class="textCancel">No</span>
+          </v-btn>
+          <v-btn text class="accept" @click="goBack">Continuar</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </section>
 </template>
 
@@ -460,6 +475,24 @@
     margin-bottom: 40px;
   }
   margin-bottom: 20px;
+}
+
+.dialog {
+  .text {
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+    color: $color-base;
+    letter-spacing: 0.15px;
+  }
+  .cancel {
+    color: rgba(21, 22, 61, 0.6);
+    letter-spacing: 0.75px;
+  }
+  .accept {
+    color: $color-primary;
+    letter-spacing: 0.75px;
+  }
 }
 
 .v-input--selection-controls{
@@ -541,7 +574,7 @@
       }
       button {
         margin: 16px;
-        max-width: 148px;
+        max-width: 180px;
         height: 48px;
         color: $color-primary;
         text-decoration: none;
@@ -598,62 +631,90 @@ export default {
   layout: null,
   data() {
     return {
-      model: {
-        property: { 
-          id:2,
-          image:"dpto.svg",
-          name:"Dpto",
-        },
-       
-        floors: 1, 
-        floorNumber: 1,
-        doors: undefined,
-        reference: '',
-        otherReference: '',
-        accesible: undefined,
-        motiveUnaccesible: '',
-        spaces: [
-          { text: 'Cocina', value: 0, backName: 'kitchen' },
-          { text: 'Dormitorios', value: 0, backName: 'rooms' },
-          { text: 'Sala', value: 0, backName: 'living_room' },
-          { text: 'Jardín', value: 0, backName: 'garden' },
-          { text: 'Lavandería', value: 0, backName: 'laundry' },
-          { text: 'Patio', value: 0, backName: 'patio' },
-          { text: 'Piscina', value: 0, backName: 'pool' }
-        ]
+    model: {
+      property: { 
+        id:2,
+        image:"dpto.svg",
+        name:"Dpto",
       },
+      floors: 1, 
+      floorNumber: 1,
+      doors: undefined,
+      reference: '',
+      otherReference: '',
+      accesible: undefined,
+      motiveUnaccesible: '',
+      spaces: [
+        { text: 'Cocina', value: 0, backName: 'kitchen' },
+        { text: 'Dormitorios', value: 0, backName: 'rooms' },
+        { text: 'Sala', value: 0, backName: 'living_room' },
+        { text: 'Jardín', value: 0, backName: 'garden' },
+        { text: 'Lavandería', value: 0, backName: 'laundry' },
+        { text: 'Patio', value: 0, backName: 'patio' },
+        { text: 'Piscina', value: 0, backName: 'pool' }
+      ]
+    },
+      dialogAccept: null,
       floors: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
     }
   },
-  async asyncData ({params, store}) {
+  async asyncData ({params, store, app}) {
     const dataProperty = await $backend.getPropertyOptions()
     const properties = dataProperty.data.data
 
     if(store.state.registerVisit.isVisitData){
-
-      const {data} = await $backend.getBikeFormById(store.state.registerVisit.literalCopy)
-      const bikerForm = data.data.bikerform      
       
-      store.state.registerVisit.dispatch('setPhotosAlbum',photos);
+      const {data} = await $backend.getBikeFormById(store.state.registerVisit.literalCopy)
+      const bikerForm = data.data.bikerform
+
+      store.dispatch('registerVisit/setPhotosAlbum',bikerForm.photos);
+
 
       const property = properties.find(obj => obj.id === bikerForm.ownership.id)
       
+      const spaces = [
+        { text: 'Cocina', value: 0, backName: 'kitchen' },
+        { text: 'Dormitorios', value: 0, backName: 'rooms' },
+        { text: 'Sala', value: 0, backName: 'living_room' },
+        { text: 'Jardín', value: 0, backName: 'garden' },
+        { text: 'Lavandería', value: 0, backName: 'laundry' },
+        { text: 'Patio', value: 0, backName: 'patio' },
+        { text: 'Piscina', value: 0, backName: 'pool' }
+      ]
+
+      spaces.forEach((val, idx)=>{       
+        val.value = bikerForm.spaces[val.backName];
+      })
+      
       const model = {
         property,
-        floor: bikerForm.floor,
+        floors: bikerForm.floors,
         floorNumber: bikerForm.floor,
         doors: bikerForm.access,
         elevator: bikerForm.elevator,
         buildType: bikerForm.build_type,
-        spaces: bikerForm.spaces,
+        spaces, 
         inFrontHouseState: bikerForm.condition_street,
-        orderState: bikerForm.status_order,
+        orderState: bikerForm.ownership.status_order,
         reference: bikerForm.correct_reference,
-        accesible: bikerForm.accesible
+        otherReference: bikerForm.correct_reference_motive,
+        motiveUnaccesible: bikerForm.accesible_motive,
+        accesible: bikerForm.accesible,
+        mtsOcuped: bikerForm.area.occupied,
+        ceilingSize: bikerForm.area.roofing,
+        terrainSize: bikerForm.area.land,
+        onSuburbs: bikerForm.inside_fifth,
+        enclosed: bikerForm.fenced,
+        water: bikerForm.water_service,
+        electricity:bikerForm.electricity_service,
+        galeryNumber:bikerForm.gallery_number
+        
       }
+      
+      store.dispatch('registerVisit/isVisitDataLoaded');
       return { propertyItems: properties, model }
     }
-    
+
     return { propertyItems: properties }
   },
   computed: mapState({
@@ -666,6 +727,13 @@ export default {
       setVisitData: 'registerVisit/setVisitData',
       savePhoto: 'registerVisit/savePhoto',
       removePhoto: 'registerVisit/removePhoto',
+      goBack(){
+        this.$router.push(`/detail/${this.$store.state.registerVisit.visitId}`)
+      },
+      goToCamera(){
+        this.setVisitData(this.model);
+        this.$router.push('/camera')
+      }
     }),
     updateCounter(type, input){
       switch(type){
@@ -689,7 +757,12 @@ export default {
       }
     },
   },
-  mounted() {
+  created() {
+    if(this.$store.state.registerVisit.visitData != undefined){
+      const localModel = Object.assign({}, this.$store.state.registerVisit.visitData) 
+      localModel.spaces = JSON.parse(JSON.stringify(localModel.spaces)); 
+      this.model = localModel
+    }
   }
 }
 </script>

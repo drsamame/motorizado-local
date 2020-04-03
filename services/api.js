@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://api.dev.prestamype.com/v1/',
+  baseURL: process.server?(process.env.baseURLApiSsr+'/v1'):(process.env.baseURLApiSpa+'/v1'),
   timeout: 5000,
   withCredentials: true,
   headers: {
@@ -10,7 +10,7 @@ const api = axios.create({
 })
 
 const publicApi = axios.create({
-  baseURL: 'https://api.dev.prestamype.com/v1/',
+  baseURL: process.server?(process.env.baseURLApiSsr+'/v1'):(process.env.baseURLApiSpa+'/v1'),
   timeout: 5000,
   withCredentials: true,
   headers: {

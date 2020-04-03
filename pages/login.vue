@@ -3,8 +3,8 @@
     <v-row align="center" justify="center">
       <v-col cols="12" sm="8" md="4">
         <v-card class="elevation-12"> 
-          <v-toolbar color="#7b7b7b" dark flat> 
-            <v-toolbar-title class="d-flex align-center bold"><img class="logo" src="/icon.png" alt=""> <h3>Motorizado</h3> </v-toolbar-title>
+          <v-toolbar color="#7b7b7b" dark flat>
+            <v-toolbar-title class="d-flex align-center bold"><img class="logo" src="~/assets/images/icon.png" alt=""> <h3>Motorizado</h3> </v-toolbar-title>
           </v-toolbar>
           <v-card-text>
             <ValidationObserver ref="form">
@@ -12,13 +12,14 @@
                 <ValidationProvider
                   v-slot="{ errors }"
                   name="email"
-                  rules="required|email"
+                  rules="required|email" 
                 >
                   <v-text-field
                     v-model="email"
                     :error-messages="errors"
                     prepend-icon="mdi-account"
                     clearable=""
+                    type="text"
                     label="Usuario"
                     required
                   ></v-text-field>
@@ -49,6 +50,7 @@
               max-width="100%"
               tile
               large
+              :loading="isLoading"
               @click="loginForm"
               >Login</v-btn
             >
@@ -81,7 +83,8 @@ export default {
   data() {
     return {
       email: '',
-      password: ''
+      password: '',
+      isLoading: false
     }
   },
   mounted() {
@@ -92,6 +95,7 @@ export default {
     async loginForm() {
       const isValidated = await this.$refs.form.validate()
       if (isValidated) {
+        this.isLoading = true;
         const response = await $backend
           .login(this.email, this.password)
           .catch(err => {
@@ -100,6 +104,7 @@ export default {
               errors[item] = err.response.data.input[item].name
             }
             this.$refs.form.setErrors(errors)
+            this.isLoading = false
           })
 
         if (response) {

@@ -20,13 +20,6 @@
                     :autoplay="autoplay"
                     playsinline
             />
-            <!--{{cameras}} 
-            <hr/>
-            {{camsList}} 
-            <hr/>
-            {{Constrains}}
-            --> 
-
         </template>
         <div class="progress">
 
@@ -70,7 +63,7 @@
     import axios from 'axios'
     import getUserMedia from 'getusermedia' 
     import toblob from 'canvas-to-blob'
-import { image } from 'vee-validate/dist/rules'
+    import { image } from 'vee-validate/dist/rules'
 
     export default {
         name: "identiface",

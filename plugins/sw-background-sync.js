@@ -1,4 +1,6 @@
 if (workbox) {
+    
+    console.log(process.env.baseURLApiSpa, process.env.REG_ROUTE)
     console.log(`Yay! 'background_sync.js' is loaded 🎉`);
 
     const bgSyncPlugin = new workbox.backgroundSync.Plugin('register-visit-queue', {

@@ -7,8 +7,8 @@
       <div class="camera">
         <client-only>
           <WebCam
-            ref="webcam"
-            :aws-url="'https://api.dev.prestamype.com/v1/admin/biker/visit/real_estate/upload_file/'+$store.state.registerVisit.visitId"
+            ref="webcam" 
+            :aws-url="envUrl+'/v1/admin/biker/visit/real_estate/upload_file/'+$store.state.registerVisit.visitId"
             :aws-config="awsConfig"
             :device-id="deviceId"
             width="100%"
@@ -55,7 +55,8 @@
           <v-btn text class="cancel" @click="dialogConfirm = false">
             <span class="textCancel">Cancelar</span>
           </v-btn>
-          <v-btn text class="accept" @click="save">GUARDAR</v-btn>
+          <v-btn text class="accept" @click="save" :loading="isLoading">GUARDAR</v-btn>
+
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -148,10 +149,12 @@ export default {
   layout: 'null',
   data() {
     return {
+      envUrl:process.env.baseURLApiSpa,
       model: {
         title: '',
         description: ''
       },
+      isLoading: false,
       awsConfig: {},
       notSupport: false,
       dialogConfirm: null,
@@ -200,14 +203,13 @@ export default {
       savePhoto: 'registerVisit/savePhoto'
     }),
     save() {
+      this.isLoading = true;
       this.$refs.webcam.sendToAws();
     },
     onPreviewImage(preview) {
       this.img = preview
     },
-    onImageProgress(percent) {
-      console.log(percent)
-    },
+    onImageProgress(percent) {},
     onImageReady(data) {
       const photo = {
         url_image: data.imageUrl,
@@ -216,7 +218,7 @@ export default {
         description: this.model.description
       }
       this.savePhoto(photo)
-      this.$router.push('/register')
+      this.$router.push('/register') 
     },
     Capture() {
       this.dialogConfirm = true

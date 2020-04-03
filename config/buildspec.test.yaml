@@ -1,0 +1,37 @@
+version: 0.2
+
+env:
+    variables:
+        API_URL_SSR: "https://api.test.prestamype.com"
+        API_URL_SPA: "https://api.test.prestamype.com"
+
+phases:
+    install:
+        runtime-versions:
+            nodejs: 10
+
+    pre_build:
+        commands:
+            - echo Installing source NPM dependencies...
+            - npm install
+    build:
+        commands:
+            - echo Build started on `date`
+            - npm run build
+            # Sync assets with S3 bucket
+            - aws s3 sync .nuxt/dist/client/ s3://$AWS_S3_BUCKET/assets --cache-control "max-age=31536000" --acl 'public-read' --delete
+            # Copy static files to folder in S3 bucket
+            - aws s3 cp ./static s3://$AWS_S3_BUCKET/static --cache-control "max-age=31536000" --acl 'public-read' --recursive
+            # Invalidate cloudfront distribution for all assets
+            - aws cloudfront create-invalidation --distribution-id $CF_DIST_ID --paths "/*"
+            - rm -rf node_modules
+            - npm install --production
+            - du -hd1 node_modules
+            # Package code into s3
+            - aws cloudformation package  --template-file template.yaml  --output-template-file packaged.yaml  --s3-bucket $LAMBDA_ARTIFACTS_BUCKET
+
+artifacts:
+    type: zip
+    files:
+        - packaged.yaml
+        - template.yaml

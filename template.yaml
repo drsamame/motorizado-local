@@ -1,0 +1,40 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+    prestamype biker frontend
+
+Globals:
+    Function:
+        Timeout: 10
+
+Resources:
+    PrestamypeBikerFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            CodeUri: ./
+            Handler: lambda.handler
+            Runtime: nodejs10.x
+            MemorySize: 1024
+            Environment:
+                Variables:
+                    NODE_ENV: production
+            Events:
+                ProxyApiRoot:
+                    Type: Api
+                    Properties:
+                        Path: /
+                        Method: ANY
+                ProxyApi:
+                    Type: Api
+                    Properties:
+                        Path: /{proxy+}
+                        Method: ANY
+
+Outputs:
+    PrestamypeBikerApi:
+        Description: "API Gateway endpoint URL for Prod stage for Cambio Seguro public function"
+        Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+
+    PrestamypeBikerFunction:
+        Description: "NuxtTemplate Lambda Function ARN"
+        Value: !GetAtt PrestamypeBikerFunction.Arn

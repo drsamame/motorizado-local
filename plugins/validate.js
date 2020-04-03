@@ -1,5 +1,5 @@
 import { extend, localize } from 'vee-validate'
-import { required, email, max, max_value } from 'vee-validate/dist/rules'
+import { required, email, max, max_value, min, alpha_spaces } from 'vee-validate/dist/rules'
 
 import es from 'vee-validate/dist/locale/es.json'
 
@@ -20,4 +20,12 @@ extend('email', {
 
 extend('max', {
   ...max
+})
+
+extend('min', {
+  ...min
+})
+
+extend('alpha_spaces', {
+  ...alpha_spaces
 })

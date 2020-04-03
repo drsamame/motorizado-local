@@ -9,7 +9,7 @@ export default {
     loginInfo.then((data)=>{
       api.defaults.headers.common['Authorization'] = `Bearer ${data.data.token}`
     })
-    return loginInfo ;
+    return loginInfo
   }, 
   getVisits(type) {
     return api.get(`/admin/biker/visit?status=${type}`)
@@ -22,6 +22,9 @@ export default {
   },
   getPropertyOptions(){
     return publicApi.get(`/public/ownership`) 
+  },
+  getTypeDocuments(){
+    return api.get(`/admin/type-document`) 
   },
   declineVisit(id, body){
     return api.delete(`/admin/biker/visit/${id}`, { data: body })

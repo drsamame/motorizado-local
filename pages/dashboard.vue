@@ -38,8 +38,9 @@
             >DETALLE <v-icon class="arrow">mdi-arrow-right</v-icon></nuxt-link
           >
         </v-card>
+        <p class="no-request" v-show="!opened.length">No hay solicitudes nuevas</p>
       </v-tab-item>
-      <v-tab-item class="pb-3 content-card">
+      <v-tab-item class="pb-3 content-card"> 
         <v-card class="pa-5 canceled mt-4 card" v-for="card in canceled" :key="card.id">
           <div class="d-flex justify-space-between">
             <h3 class="state pend">CANCELADA</h3>
@@ -57,6 +58,7 @@
           >
           
         </v-card>
+        <p class="no-request" v-show="!canceled.length">No hay solicitudes nuevas</p>
       </v-tab-item>
       <v-tab-item class="pb-3 content-card">
         <v-card class="pa-5 closed mt-4 card" v-for="card in closed" :key="card.id">
@@ -75,12 +77,23 @@
             >DETALLE <v-icon class="arrow">mdi-arrow-right</v-icon></nuxt-link
           >
         </v-card>
+        <p class="no-request" v-show="!closed.length">No hay solicitudes nuevas</p>
       </v-tab-item>
     </v-tabs-items>
   </div>
 </template>
 
 <style lang="scss" scoped>
+.no-request{
+  font-size: 13px;
+  line-height: 24px;
+  margin-bottom: 15px;
+  color: rgba(21, 22, 61, 0.8);
+  letter-spacing: 0.5px;
+  text-align: center;
+  margin-top: 20%;
+}
+
 .content-card {
   .card {
     &:last-child {

@@ -362,12 +362,12 @@ export default {
   },
   mounted(){
     this.setVisitId(this.$route.params.id);
-    this.setIsVisitData({existData:this.model.exists_data, literalCopy:this.model.literal_copy});
+    this.setDetailVisit({existData:this.model.exists_data, literalCopy:this.model.literal_copy, contacts: this.model.contacts});
   },
   methods: {
     ...mapActions({
       setVisitId: 'registerVisit/setVisitId',
-      setIsVisitData: 'registerVisit/setIsVisitData'
+      setDetailVisit: 'registerVisit/setDetailVisit'
     }),
     bgclick(){
       const response = $backend.getPostBackgroundsynExample().then(response => { 

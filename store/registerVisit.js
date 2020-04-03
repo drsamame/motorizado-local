@@ -4,8 +4,9 @@ export const state = () => ({
   isVisitData: false,
   literalCopy:'',
   photos: [],
-  visitData: {},
+  visitData: undefined,
   sendData: {},
+  visitContacts:{}, 
  
 })
 
@@ -13,6 +14,7 @@ export const mutations = {
   SET_VISIT_DATA(state, payload) {
     state.visitData = payload; 
   },
+
   SET_PHOTO(state, payload) {
     state.photos.push(payload)
   },
@@ -20,10 +22,13 @@ export const mutations = {
     state.photos = payload
   },
   SET_EXIST_DATA(state, payload) { 
-    state.isVisitData = payload.existData
+    state.isVisitData = payload.existData 
   },
   SET_LITERAL_COPY(state, payload) { 
     state.literalCopy = payload.literalCopy
+  },
+  SET_VISIT_CONTACT(state, payload) {
+    state.visitContacts = payload.contacts;
   },
   SET_LAST_PHOTO_POSITION(state, payload) {
     state.lastPhotoPosition = payload
@@ -45,15 +50,6 @@ export const mutations = {
 export const actions = {
   setVisitData({commit, state}, payload){
     console.log(payload);
-    const spaces = {
-      kitchen: 0,
-      rooms: 0,
-      living_room: 0,
-      garden: 0,
-      laundry: 0,
-      patio: 0,
-      pool: 0,
-    } 
 
     const spaceObj = 
     payload.spaces.reduce((obj, item) => {
@@ -81,14 +77,14 @@ export const actions = {
       sendData['accesible_motive'] = payload.motiveUnaccesible
     }
 
-    switch(payload.property.value){
+    switch(payload.property.id){
+
       case 1:
         sendData['floors']= payload.floors
-        sendData['floor']= payload.floorNumber
-        sendData['access']= payload.doors
-        sendData['elevator']= payload.elevator
-        sendData['build_type']= payload.buildType
+        sendData['access']= payload.doors 
+        sendData['inside_fifth']= payload.onSuburbs
         sendData['area'] = {
+          land: payload.terrainSize,
           occupied: payload.mtsOcuped,
           roofing: payload.ceilingSize,
         }
@@ -97,25 +93,16 @@ export const actions = {
       case 2:
         sendData['floors']= payload.floors
         sendData['floor']= payload.floorNumber
-        sendData['access']= payload.doors
+        sendData['access']= payload.doors 
+        sendData['elevator']= payload.elevator
+        sendData['build_type']= payload.buildType
         sendData['area'] = {
-          occupied: payload.mtsOcuped,
-        }
-        sendData['gallery_number']= payload.galeryNumber
-        break
-
-      case 3:
-        sendData['floors']= payload.floors
-        sendData['access']= payload.doors
-        sendData['inside_fifth']= payload.onSuburbs
-        sendData['area'] = {
-          land: payload.terrainSize,
           occupied: payload.mtsOcuped,
           roofing: payload.ceilingSize,
         }
         break
-      
-      case 4:
+
+      case 3:
         sendData['access']= payload.doors
         sendData['fenced']= payload.enclosed
         sendData['water_service']= payload.water
@@ -124,8 +111,17 @@ export const actions = {
           land: payload.terrainSize, 
         }
         break
-    };
 
+      case 4:
+        sendData['floors']= payload.floors
+        sendData['floor']= payload.floorNumber
+        sendData['access']= payload.doors
+        sendData['area'] = {
+          occupied: payload.mtsOcuped,
+        }
+        sendData['gallery_number']= payload.galeryNumber
+        break
+    };
 
     commit('SET_VISIT_DATA', payload)
     commit('SET_SEND_DATA', sendData)
@@ -134,15 +130,18 @@ export const actions = {
     commit('SET_LAST_PHOTO_POSITION', payload)
   },
   setPhotosAlbum({commit}, payload){
-    console.log(payload);
     commit('SET_PHOTOS_ALBUM', payload)
   },
   setVisitId({commit},payload){
     commit('SET_VISIT_ID', payload)
   },
-  setIsVisitData({commit},payload){
+  isVisitDataLoaded({commit}){
+    commit('SET_EXIST_DATA', {existData: false})
+  },
+  setDetailVisit({commit},payload){
     commit('SET_LITERAL_COPY', payload)
     commit('SET_EXIST_DATA', payload)
+    commit('SET_VISIT_CONTACT', payload)
   },
   savePhoto({ commit }, payload) {
     commit('SET_PHOTO', payload)
