@@ -1,6 +1,6 @@
-# Nuxt PWA Vuetify Starter
+# Nuxt PWA Vuetify
 
-> Nuxt.js + PWA + Vuetify.js starter project
+> Nuxt.js + PWA + Vuetify.js Motorizado
 
 ## Features
 
