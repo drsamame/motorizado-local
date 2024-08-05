@@ -49,7 +49,7 @@
     "leaflet": "^1.6.0",
     "lru-cache": "^5.1.1",
     "moment": "^2.24.0",
-    "nuxt": "^2.11.0",
+    "nuxt": "^3.12.4",
     "nuxt-validate": "^1.0.1",
     "vee-validate": "^3.2.5",
     "vue-signature-pad": "^1.1.18",
